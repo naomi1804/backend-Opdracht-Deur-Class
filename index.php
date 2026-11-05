@@ -1,17 +1,19 @@
 <?php
+// include the door class and start a session to maintain the state of the door across requests
 include "door.php";
 
-// We starten een sessie zodat de status van de deur onthouden wordt tussen klikken
+// start a session to maintain the state of the door across requests
 session_start();
 if (!isset($_SESSION['deur'])) {
     $_SESSION['deur'] = new Deur("Voordeur");
 }
 $mijnDeur = $_SESSION['deur'];
 
-// Bepaal welke actie de gebruiker heeft gekozen via de knoppen
+// get the action from the query string, defaulting to 'start' if not provided
 $actie = $_GET['actie'] ?? 'start';
 $melding = "";
 
+// handle the action based on the user's choice
 if ($actie == 'ontgrendel') {
     $melding = $mijnDeur->sleutelGebruiken("links");
 } elseif ($actie == 'open') {
